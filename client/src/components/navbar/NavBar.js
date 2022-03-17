@@ -14,7 +14,7 @@ const NavBar = () => {
     const dispatch=useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(user);
+    // console.log(user);
 
     useEffect(()=>{
         const token=user?.token;

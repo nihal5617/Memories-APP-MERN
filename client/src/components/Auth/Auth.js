@@ -7,19 +7,29 @@ import { GoogleLogin } from 'react-google-login';
 import Icon from './icon';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { signin, signuphere } from '../../actions/auth';
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 function Auth() {
   const classes = useStyles();
   const [signup, setIsSignup] = useState(false);
   const [showPassword, setshowPassword] = useState(false);
+  const [form, setForm] = useState(initialState);
   const dispatch = useDispatch();
   const history = useNavigate();
-  const handleSubmit = () => {
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (signup) {
+      console.log(form);
+      dispatch(signuphere(form, history));
+    } else {
+      dispatch(signin(form, history));
+    }
   }
-  const handleChange = () => {
+  const handleChange = (e) =>  setForm({ ...form, [e.target.name]: e.target.value });
 
-  }
   const handleShowPassword = () => {
     setshowPassword(!showPassword)
   }
@@ -32,7 +42,6 @@ function Auth() {
 
     try {
       dispatch({ type: 'AUTH', data: { result, token } });
-
       history('/');
     } catch (error) {
       console.log(error);
